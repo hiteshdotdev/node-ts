@@ -1,0 +1,27 @@
+name: Validate PRs
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate_prs:
+    name: Lint, Test and Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm run list
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9 
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run lint
+
+    
+  
